@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
 function Foods(props) {
   const [number, setNumber] = useState(0);
