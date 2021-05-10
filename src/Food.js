@@ -3,13 +3,13 @@ function Food(props) {
    const removeFood = () => {
       var newArr=[...props.foodList];//...props.foodList.splice(0, props.index),
           //...props.foodList.splice(props.index+1)];
-      if(props.index==0)
+      if(props.index===0)
          newArr=[...newArr.splice(1)]
       else
          newArr.splice(props.index, props.index);
       props.setFoodList(newArr);
 
-      if(props.isSingleView &&(props.singleIndex==newArr.length))
+      if(props.isSingleView &&(props.singleIndex===newArr.length))
          props.setSingleIndex(0)
    }
 
