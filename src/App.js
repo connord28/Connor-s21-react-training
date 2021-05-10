@@ -1,42 +1,60 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import Food from './Food'
 
-function Foods(props) {
-  const [number, setNumber] = useState(0);
-  const [itemNum, setItemNum] = useState(1);
-  var message = [];
-  for(var i = 0; i < itemNum; i++)
-  {
-    message = [...message, <div>{props.name} 
-    <br/> 
-    {number} Likes 
-    <br/> 
-    <button onClick={()=>setNumber(number+1)}>Like</button> 
-    <br/> 
-    <button onClick={()=>setItemNum(itemNum+1)}>duplicate</button> 
-    <br/> 
-    <button onClick={()=>setItemNum(itemNum-1)}>remove</button> 
-    </div>];
-    console.log(message);
-  }
-  return message;
-}
+function App(props) {
+  const [foodList, setFoodList] = useState(["Pizza", "Burger", "Pasta"]);
+  const [inputFood, setInputFood] = useState("");
+  const [isSingleView, setIsSingleView] = useState(false);
+  const [singleIndex, setSingleIndex] = useState(0);
 
-function App() {
-  const foods = {
-    "Pizza": 0,
-    "Burrito": 0,
-    "Burger": 0
+  const addFood = () => {
+    setFoodList([...foodList, inputFood]);
+    setInputFood("");
   }
+
   return (
     <div className="App">
     <header className="App-header">
+    <div className="viewButton">
+    <button onClick={()=>{setIsSingleView(!isSingleView)}}>
+        {isSingleView===true ? "View All" : "Single View"}</button>
+    </div>
+    New Food:
+    <input type="text" onChange={(event)=>{setInputFood(event.target.value)}} value={inputFood}/>
+    <button onClick={addFood}>Submit</button>
     {
-      Object.entries(foods).map(([key, _]) => <Foods name={key}/>)
+      foodList.length === 0 && <div>List is Empty</div>
+    }
+    {
+      foodList.length !== 0 && (
+        isSingleView===true ? (
+          foodList.map((value, index)=>{return <Food
+            name={value}
+            key={index} 
+            foodList={foodList}
+            index={index}
+            singleIndex={singleIndex}
+            setSingleIndex={setSingleIndex} 
+            setFoodList={setFoodList}
+            isSingleView={isSingleView}>
+          </Food>})
+        ) : (
+          foodList.map((value, index)=>{return <Food 
+            name={value} 
+            foodList={foodList}
+            key={index}
+            setFoodList={setFoodList} 
+            index={index}
+            isSingleView={isSingleView}>
+            </Food>})
+        )
+      )
     }
     </header>
     </div>
   );
 }
+
 
 export default App;
